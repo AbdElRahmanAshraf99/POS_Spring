@@ -7,12 +7,13 @@ import java.util.List;
 
 @Entity
 @Data
-public class SalesInvoice extends BaseEntity
+public class PurchaseInvoice extends BaseEntity
 {
 	@ManyToOne
-	private Customer customer;
+	private Supplier supplier;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "salesInvoice_id")
 	private List<SalesInvoiceLine> lines;
+
 }

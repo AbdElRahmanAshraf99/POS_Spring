@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class Address
 {
-	String country;
-	String city;
-	String address;
-	String zipCode;
+	private String country;
+	private String city;
+	private String address;
+	private String zipCode;
 }

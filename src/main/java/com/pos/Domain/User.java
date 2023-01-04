@@ -9,7 +9,7 @@ import lombok.Data;
 @Table(name = "POS_USER")
 public class User extends BaseEntity
 {
-	String username;
-	String password;
-	String email;
+	private String username;
+	private String password;
+	private String email;
 }

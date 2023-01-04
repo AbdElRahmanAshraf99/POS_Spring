@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 @Data
 public class Item extends BaseEntity
 {
-	String name;
-	BigDecimal unitPrice;
+	private String name;
+	private BigDecimal unitPrice;
 }

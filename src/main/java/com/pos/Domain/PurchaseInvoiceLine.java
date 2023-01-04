@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class SalesInvoiceLine extends BaseLine
+public class PurchaseInvoiceLine extends BaseLine
 {
 	@OneToOne
 	private Item item;
