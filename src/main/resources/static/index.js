@@ -9,28 +9,41 @@ $(document).ready(() => {
         $("#box").height($(document).height() - $("nav").height())
         if (view === "listView") {
             $.get(`${window.location.origin}/${entity}/all`, (data) => drawListView(data));
+        } else {
+            $.get(`${window.location.origin}/${entity}/fieldsInfo`, (data) => drawEditView(data));
         }
     }
 });
 
+function drawEditView(data) {
+    let content = `<form class="my-2 mx-4" style="width: 80%;color: white">`
+    let fieldsInfo = data["info"];
+    for (let field of data["fields"]) {
+        content += `<div class="mb-3">
+            <label class="form-label">${field}</label>
+            <input type="${fieldsInfo[field]}" class="form-control">
+            </div>`
+    }
+    content += `<button type="submit" class="btn btn-primary">Submit</button></form>`;
+    $("#box").prepend(content);
+}
+
 function drawListView(data) {
-    if (!data.length) {
+    if (!data["values"].length) {
         $("#box").prepend("<div class='d-flex justify-content-center align-items-center' " +
             "style='font-size: 38px;width: 100%;color: #ffffff'>There is no data to show</div>");
         return;
     }
     let content = `<table class="table table-bordered table-dark table-hover" style="height: fit-content"><thead><tr>`
-    for (let key in data[0]) {
-        if (key === "Id") continue;
-        content += `<th><div class="d-flex justify-content-around">${key}</div></th>`;
+    for (let field of data["fields"]) {
+        content += `<th><div class="d-flex justify-content-around">${field}</div></th>`;
     }
     content += `<th><div class="d-flex justify-content-around">Actions</div></th>`;
     content += `</tr></thead><tbody>`;
-    for (let object of data) {
+    for (let object of data["values"]) {
         content += `<tr>`;
-        for (let key in object) {
-            if (key === "Id") continue;
-            content += `<td><div class="d-flex justify-content-around">${object[key]}</div></td>`;
+        for (let field of data["fields"]) {
+            content += `<td><div class="d-flex justify-content-around">${object[field]}</div></td>`;
         }
         content += `<td><div class="d-flex justify-content-around">
         <button class="btn btn-warning" style="width: 25%" data-id=${object["Id"]}>Edit</button>
@@ -89,8 +102,9 @@ function renderNavbar() {
     navbarContent += `</ul>`;
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('view')) {
-        navbarContent += '<button class="btn btn-outline-warning m-1" value="listView" onclick="onChangeViewBtnClicked(this)">List View</button>' +
-            '<button class="btn btn-outline-warning m-2" value="editView" onclick="onChangeViewBtnClicked(this)">Edit View</button>';
+        navbarContent += '<button class="btn btn-outline-warning m-2" value="editView" onclick="onChangeViewBtnClicked(this)">' +
+            '<i class="bi bi-plus-lg"></i></button>' +
+            '<button class="btn btn-outline-warning m-1" value="listView" onclick="onChangeViewBtnClicked(this)">List View</button>';
     }
     navbarContent += `<form class="d-flex">
             <input class="form-control me-2" type = "search" placeholder ="Search" aria-label="Search">

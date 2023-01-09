@@ -20,10 +20,12 @@ public class ItemController
 	private ItemRepository itemRepository;
 
 	@GetMapping("/all")
-	public List<Map<String, String>> getAllItems()
+	public Map<String, Object> getAllItems()
 	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Unit Price"));
 		List<Item> items = (List<Item>) itemRepository.findAll();
-		List<Map<String, String>> resultList = new ArrayList<>();
+		List<Map<String, String>> values = new ArrayList<>();
 		for (Item item : items)
 		{
 			Map<String, String> resultMap = new HashMap<>();
@@ -32,9 +34,24 @@ public class ItemController
 			resultMap.put("Creation Date", item.getCreationDate().toLocalDate().toString());
 			resultMap.put("Name", item.getName());
 			resultMap.put("Unit Price", item.getUnitPrice().toString());
-			resultList.add(resultMap);
+			values.add(resultMap);
 		}
-		return resultList;
+		result.put("values", values);
+		return result;
+	}
+
+	@GetMapping("/fieldsInfo")
+	public Map<String, Object> getItemFieldsInfo()
+	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Unit Price"));
+		Map<String, String> fieldsInfo = new HashMap<>();
+		fieldsInfo.put("Code", "text");
+		fieldsInfo.put("Creation Date", "datetime");
+		fieldsInfo.put("Name", "text");
+		fieldsInfo.put("Unit Price", "number");
+		result.put("info", fieldsInfo);
+		return result;
 	}
 
 }

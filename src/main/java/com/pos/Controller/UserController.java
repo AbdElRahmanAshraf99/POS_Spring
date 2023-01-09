@@ -1,8 +1,6 @@
 package com.pos.Controller;
 
-import com.pos.Domain.Customer;
 import com.pos.Domain.User;
-import com.pos.Repository.CustomerRepository;
 import com.pos.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +20,12 @@ public class UserController
 	private UserRepository userRepository;
 
 	@GetMapping("/all")
-	public List<Map<String, String>> getAllCustomers()
+	public Map<String, Object> getAllCustomers()
 	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Username", "Email"));
 		List<User> users = (List<User>) userRepository.findAll();
-		List<Map<String, String>> resultList = new ArrayList<>();
+		List<Map<String, String>> values = new ArrayList<>();
 		for (User user : users)
 		{
 			Map<String, String> resultMap = new HashMap<>();
@@ -34,9 +34,24 @@ public class UserController
 			resultMap.put("Creation Date", user.getCreationDate().toLocalDate().toString());
 			resultMap.put("Username", user.getUsername());
 			resultMap.put("Email", user.getEmail());
-			resultList.add(resultMap);
+			values.add(resultMap);
 		}
-		return resultList;
+		result.put("values", values);
+		return result;
+	}
+
+	@GetMapping("/fieldsInfo")
+	public Map<String, Object> getCustomerFieldsInfo()
+	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Username", "Email"));
+		Map<String, String> fieldsInfo = new HashMap<>();
+		fieldsInfo.put("Code", "text");
+		fieldsInfo.put("Creation Date", "datetime");
+		fieldsInfo.put("Username", "text");
+		fieldsInfo.put("Email", "email");
+		result.put("info", fieldsInfo);
+		return result;
 	}
 
 }

@@ -22,10 +22,12 @@ public class SupplierController
 	private SupplierRepository supplierRepository;
 
 	@GetMapping("/all")
-	public List<Map<String, String>> getAllCustomers()
+	public Map<String, Object> getAllCustomers()
 	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
 		List<Supplier> suppliers = (List<Supplier>) supplierRepository.findAll();
-		List<Map<String, String>> resultList = new ArrayList<>();
+		List<Map<String, String>> values = new ArrayList<>();
 		for (Supplier supplier : suppliers)
 		{
 			Map<String, String> resultMap = new HashMap<>();
@@ -36,9 +38,26 @@ public class SupplierController
 			resultMap.put("Address", supplier.getAddress().getAddress());
 			resultMap.put("City", supplier.getAddress().getCity());
 			resultMap.put("Country", supplier.getAddress().getCountry());
-			resultMap.put("ZIP Code", supplier.getAddress().getZipCode());
-			resultList.add(resultMap);
+			values.add(resultMap);
 		}
-		return resultList;
+		result.put("values", values);
+		return result;
 	}
+
+	@GetMapping("/fieldsInfo")
+	public Map<String, Object> getSupplierFieldsInfo()
+	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
+		Map<String, String> fieldsInfo = new HashMap<>();
+		fieldsInfo.put("Code", "text");
+		fieldsInfo.put("Creation Date", "datetime");
+		fieldsInfo.put("Name", "text");
+		fieldsInfo.put("Address", "text");
+		fieldsInfo.put("City", "text");
+		fieldsInfo.put("Country", "text");
+		result.put("info", fieldsInfo);
+		return result;
+	}
+
 }

@@ -22,10 +22,12 @@ public class SalesInvoiceController
 	private SalesInvoiceRepository salesInvoiceRepository;
 
 	@GetMapping("/all")
-	public List<Map<String, String>> getAllCustomers()
+	public Map<String, Object> getAllCustomers()
 	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Customer"));
 		List<SalesInvoice> salesInvoices = (List<SalesInvoice>) salesInvoiceRepository.findAll();
-		List<Map<String, String>> resultList = new ArrayList<>();
+		List<Map<String, String>> values = new ArrayList<>();
 		for (SalesInvoice salesInvoice : salesInvoices)
 		{
 			Map<String, String> resultMap = new HashMap<>();
@@ -33,9 +35,22 @@ public class SalesInvoiceController
 			resultMap.put("Code", salesInvoice.getCode());
 			resultMap.put("Creation Date", salesInvoice.getCreationDate().toLocalDate().toString());
 			resultMap.put("Customer", salesInvoice.getCustomer().getCode());
-			resultList.add(resultMap);
+			values.add(resultMap);
 		}
-		return resultList;
+		result.put("values", values);
+		return result;
 	}
 
+	@GetMapping("/fieldsInfo")
+	public Map<String, Object> getSalesInvoiceFieldsInfo()
+	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Customer"));
+		Map<String, String> fieldsInfo = new HashMap<>();
+		fieldsInfo.put("Code", "text");
+		fieldsInfo.put("Creation Date", "datetime");
+		fieldsInfo.put("Customer", "text");
+		result.put("info", fieldsInfo);
+		return result;
+	}
 }

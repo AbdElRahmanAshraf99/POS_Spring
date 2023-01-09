@@ -20,23 +20,41 @@ public class CustomerController
 	private CustomerRepository customerRepository;
 
 	@GetMapping("/all")
-	public List<Map<String, String>> getAllCustomers()
+	public Map<String, Object> getAllCustomers()
 	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
 		List<Customer> customers = (List<Customer>) customerRepository.findAll();
-		List<Map<String, String>> resultList = new ArrayList<>();
+		List<Map<String, String>> values = new ArrayList<>();
 		for (Customer customer : customers)
 		{
 			Map<String, String> resultMap = new HashMap<>();
 			resultMap.put("Id", customer.getId().toString());
 			resultMap.put("Code", customer.getCode());
-			resultMap.put("Creation Date", customer.getCreationDate().toLocalDate().toString());
+			resultMap.put("Creation Date", customer.getCreationDate() != null ? customer.getCreationDate().toLocalDate().toString() : "null");
 			resultMap.put("Name", customer.getName());
 			resultMap.put("Address", customer.getAddress().getAddress());
 			resultMap.put("City", customer.getAddress().getCity());
 			resultMap.put("Country", customer.getAddress().getCountry());
-			resultMap.put("ZIP Code", customer.getAddress().getZipCode());
-			resultList.add(resultMap);
+			values.add(resultMap);
 		}
-		return resultList;
+		result.put("values", values);
+		return result;
+	}
+
+	@GetMapping("/fieldsInfo")
+	public Map<String, Object> getCustomerFieldsInfo()
+	{
+		Map<String, Object> result = new HashMap<>();
+		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
+		Map<String, String> fieldsInfo = new HashMap<>();
+		fieldsInfo.put("Code", "text");
+		fieldsInfo.put("Creation Date", "datetime");
+		fieldsInfo.put("Name", "text");
+		fieldsInfo.put("Address", "text");
+		fieldsInfo.put("City", "text");
+		fieldsInfo.put("Country", "text");
+		result.put("info", fieldsInfo);
+		return result;
 	}
 }
