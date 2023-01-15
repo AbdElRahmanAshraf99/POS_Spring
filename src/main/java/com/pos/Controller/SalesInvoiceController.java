@@ -45,10 +45,9 @@ public class SalesInvoiceController
 	public Map<String, Object> getSalesInvoiceFieldsInfo()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Customer"));
+		result.put("fields", List.of("Code", "Customer"));
 		Map<String, String> fieldsInfo = new HashMap<>();
 		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Creation Date", "datetime");
 		fieldsInfo.put("Customer", "text");
 		result.put("info", fieldsInfo);
 		return result;

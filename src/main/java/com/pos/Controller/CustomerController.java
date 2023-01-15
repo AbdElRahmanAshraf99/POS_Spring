@@ -46,10 +46,9 @@ public class CustomerController
 	public Map<String, Object> getCustomerFieldsInfo()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
+		result.put("fields", List.of("Code", "Name", "Address", "City", "Country"));
 		Map<String, String> fieldsInfo = new HashMap<>();
 		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Creation Date", "datetime");
 		fieldsInfo.put("Name", "text");
 		fieldsInfo.put("Address", "text");
 		fieldsInfo.put("City", "text");

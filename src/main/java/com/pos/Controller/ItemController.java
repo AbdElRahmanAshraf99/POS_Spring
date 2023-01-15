@@ -44,10 +44,9 @@ public class ItemController
 	public Map<String, Object> getItemFieldsInfo()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Name", "Unit Price"));
+		result.put("fields", List.of("Code", "Name", "Unit Price"));
 		Map<String, String> fieldsInfo = new HashMap<>();
 		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Creation Date", "datetime");
 		fieldsInfo.put("Name", "text");
 		fieldsInfo.put("Unit Price", "number");
 		result.put("info", fieldsInfo);
