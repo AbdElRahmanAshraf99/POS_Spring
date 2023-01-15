@@ -1,31 +1,57 @@
 $(document).ready(() => {
-    renderNavbar();
-    let searchParams = new URLSearchParams(window.location.search)
-    if (!searchParams.has('entity')) {
-        console.log("Home")
-    } else {
-        let entity = searchParams.get('entity');
-        let view = searchParams.get('view');
-        $("#box").height($(document).height() - $("nav").height())
-        if (view === "listView") {
-            $.get(`${window.location.origin}/${entity}/all`, (data) => drawListView(data));
+    $.get(`${window.location.origin}/allModules`, (data) => {
+        renderNavbar(data);
+        $("#box").height($("body").height() - $("nav").height())
+        let searchParams = new URLSearchParams(window.location.search)
+        if (!searchParams.has('entity')) {
+            drawHomePage(data);
         } else {
-            $.get(`${window.location.origin}/${entity}/fieldsInfo`, (data) => drawEditView(data));
+            let entity = searchParams.get('entity');
+            let view = searchParams.get('view');
+            if (view === "listView") {
+                $.get(`${window.location.origin}/${entity}/all`, (data) => drawListView(data));
+            } else {
+                $.get(`${window.location.origin}/${entity}/fieldsInfo`, (data) => drawEditView(data));
+            }
         }
-    }
+    })
 });
 
+function drawHomePage(data) {
+    let content = "<div class='d-flex flex-column' style='width: 100%;'>";
+    data["modules"].forEach(module => {
+        content += `<div>
+            <h2 class="m-0 mx-1 mt-2" style="color: white">${module}</h2>
+            <hr class="mx-1 mt-0" style="background-color: white">
+            <div class="d-flex" style="width: 100%">`
+        data[module].forEach(entity => {
+            content += `<a id="${entity.link}" href="/home.html?entity=${entity.link}&view=listView" class="m-3 d-flex justify-content-center align-items-center" style="width: 250px;height: 150px;
+            background-color: #ffe715;color: #101920;font-size: 26px;font-weight: 500;cursor: pointer;text-decoration: none">${entity.name}</a>`
+        })
+        content += `</div></div>`
+    })
+    content += `</div>`
+    $("#box").prepend(content);
+}
+
+
 function drawEditView(data) {
-    let content = `<form class="my-2 mx-4" style="width: 80%;color: white">`
+    let content = `<form class="my-2 mx-4" id="needs-validation" style="width: 80%;color: white" novalidate>`
     let fieldsInfo = data["info"];
     for (let field of data["fields"]) {
         content += `<div class="mb-3">
             <label class="form-label">${field}</label>
-            <input type="${fieldsInfo[field]}" class="form-control">
+            <input type="${fieldsInfo[field]}" class="form-control" required>
+            <div class="invalid-feedback">Please provide a valid ${field}.</div>
             </div>`
     }
-    content += `<button type="submit" class="btn btn-primary">Submit</button></form>`;
+    content += `<button type="submit" class="btn btn-primary" id="submitForm">Submit</button></form>`;
     $("#box").prepend(content);
+    $("#submitForm").on('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#needs-validation").addClass('was-validated');
+    })
 }
 
 function drawListView(data) {
@@ -55,29 +81,7 @@ function drawListView(data) {
     $("#box").prepend(content)
 }
 
-function renderNavbar() {
-    let modules = {
-        Basic: [{
-            text: "Customer",
-            link: "customer"
-        }, {
-            text: "Supplier",
-            link: "supplier"
-        }, {
-            text: "Item",
-            link: "item"
-        }, {
-            text: "User",
-            link: "user"
-        },],
-        Invoices: [{
-            text: "Purchase Invoice",
-            link: "purchaseInvoice"
-        }, {
-            text: "Sales Invoice",
-            link: "salesInvoice"
-        },]
-    }
+function renderNavbar(data) {
     let navbarContent = `
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-0">
             <div class="container-fluid">
@@ -86,16 +90,17 @@ function renderNavbar() {
             <li class="nav-item d-flex align-items-center">
                 <a class="nav-link active h5 m-0" aria-current="page" href="/home.html">Home</a>
             </li>`;
-    for (let module in modules) {
+
+    let modules = data["modules"];
+    for (let module of modules) {
         navbarContent += `<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active h5 m-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             ${module}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">`
-        modules[module].sort((a, b) => a.text - b.text);
-        modules[module].forEach(entity => {
-            navbarContent += `<li><a class="dropdown-item" onclick="" href="/home.html?entity=${entity.link}&view=listView">${entity.text}</a></li>`
+        data[module].forEach(entity => {
+            navbarContent += `<li><a class="dropdown-item" onclick="" href="/home.html?entity=${entity.link}&view=listView">${entity.name}</a></li>`
         })
         navbarContent += `</ul></li>`
     }
