@@ -48,9 +48,7 @@ public class ControllerUtils
 		appendClassFieldsInfo(field.getType(), result);
 		for (Field declaredField : field.getType().getDeclaredFields())
 		{
-			Map<String, Object> map = result.stream().filter(l -> l.get("name") == declaredField.getName()).findFirst().orElse(null);
-			if (map != null)
-				map.put("parent", field.getName());
+			result.stream().filter(l -> l.get("name") == declaredField.getName()).findFirst().ifPresent(map -> map.put("parent", field.getName()));
 		}
 	}
 
