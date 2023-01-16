@@ -1,6 +1,8 @@
 package com.pos.Controller;
 
+import com.pos.Domain.Customer;
 import com.pos.Domain.PurchaseInvoice;
+import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.PurchaseInvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,14 +42,9 @@ public class PurchaseInvoiceController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getPurchaseInvoiceFieldsInfo()
+	public List<Map<String, Object>> getPurchaseInvoiceFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Supplier"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Supplier", "text");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(PurchaseInvoice.class);
+
 	}
 }

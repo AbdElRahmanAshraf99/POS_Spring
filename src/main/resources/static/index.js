@@ -37,12 +37,14 @@ function drawHomePage(data) {
 
 function drawEditView(data) {
     let content = `<form class="my-2 mx-4" id="needs-validation" style="width: 80%;color: white" novalidate>`
-    let fieldsInfo = data["info"];
-    for (let field of data["fields"]) {
+    data.sort((a, b) => a.order < b.order ? -1 : a.order > b.order ? 1 : 0);
+    for (let field of data) {
+        if (field.embeddable)
+            continue
         content += `<div class="mb-3">
-            <label class="form-label">${field}</label>
-            <input type="${fieldsInfo[field]}" class="form-control" required>
-            <div class="invalid-feedback">Please provide a valid ${field}.</div>
+            <label class="form-label">${field.text}</label>
+            <input id="${field.name}Input" type="${field.inputType}" class="form-control" ${field.required ? "required" : ""}>
+            <div class="invalid-feedback">Please provide a valid ${field.text}.</div>
             </div>`
     }
     content += `<button type="submit" class="btn btn-primary" id="submitForm">Submit</button></form>`;
@@ -51,6 +53,21 @@ function drawEditView(data) {
         e.preventDefault();
         e.stopPropagation();
         $("#needs-validation").addClass('was-validated');
+        let result = {};
+        for (let field of data) {
+            let fieldName = field.name;
+            if (field.embeddable) {
+                result[fieldName] = result[fieldName] === undefined ? {} : result[fieldName];
+            } else if (field.parent) {
+                let parentObject = result[field.parent];
+                if (parentObject === undefined)
+                    parentObject = {};
+                parentObject.fieldName = $(`#${fieldName}Input`).val();
+            } else {
+                result[fieldName] = $(`#${fieldName}Input`).val();
+            }
+        }
+        console.log(result);
     })
 }
 

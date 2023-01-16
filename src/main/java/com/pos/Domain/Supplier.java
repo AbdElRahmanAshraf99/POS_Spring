@@ -1,5 +1,6 @@
 package com.pos.Domain;
 
+import com.pos.Generator.FieldInfo;
 import jakarta.persistence.Entity;
 import lombok.Data;
 
@@ -7,6 +8,8 @@ import lombok.Data;
 @Data
 public class Supplier extends BaseEntity
 {
+	@FieldInfo(required = true, order = 1)
 	private String name;
+	@FieldInfo(embeddable = true)
 	private Address address;
 }

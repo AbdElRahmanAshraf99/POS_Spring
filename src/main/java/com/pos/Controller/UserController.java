@@ -1,6 +1,7 @@
 package com.pos.Controller;
 
 import com.pos.Domain.User;
+import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class UserController
 	private UserRepository userRepository;
 
 	@GetMapping("/all")
-	public Map<String, Object> getAllCustomers()
+	public Map<String, Object> getAllUsers()
 	{
 		Map<String, Object> result = new HashMap<>();
 		result.put("fields", List.of("Code", "Creation Date", "Username", "Email"));
@@ -41,16 +42,9 @@ public class UserController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getCustomerFieldsInfo()
+	public List<Map<String, Object>> getUserFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Username", "Email"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Username", "text");
-		fieldsInfo.put("Email", "email");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(User.class);
 	}
 
 }

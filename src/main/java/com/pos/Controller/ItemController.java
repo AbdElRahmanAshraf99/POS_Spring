@@ -1,6 +1,8 @@
 package com.pos.Controller;
 
+import com.pos.Domain.Customer;
 import com.pos.Domain.Item;
+import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,16 +43,9 @@ public class ItemController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getItemFieldsInfo()
+	public List<Map<String, Object>> getItemFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Name", "Unit Price"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Name", "text");
-		fieldsInfo.put("Unit Price", "number");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(Item.class);
 	}
 
 }

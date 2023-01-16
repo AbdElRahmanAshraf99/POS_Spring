@@ -2,7 +2,7 @@ package com.pos.Controller;
 
 import com.pos.Domain.Customer;
 import com.pos.Domain.SalesInvoice;
-import com.pos.Repository.CustomerRepository;
+import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.SalesInvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +42,8 @@ public class SalesInvoiceController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getSalesInvoiceFieldsInfo()
+	public List<Map<String, Object>>  getSalesInvoiceFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Customer"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Customer", "text");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(SalesInvoice.class);
 	}
 }

@@ -2,7 +2,7 @@ package com.pos.Controller;
 
 import com.pos.Domain.Customer;
 import com.pos.Domain.Supplier;
-import com.pos.Repository.CustomerRepository;
+import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,18 +45,9 @@ public class SupplierController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getSupplierFieldsInfo()
+	public List<Map<String, Object>> getSupplierFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Name", "Address", "City", "Country"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Name", "text");
-		fieldsInfo.put("Address", "text");
-		fieldsInfo.put("City", "text");
-		fieldsInfo.put("Country", "text");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(Supplier.class);
 	}
 
 }

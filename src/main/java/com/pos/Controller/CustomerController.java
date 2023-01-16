@@ -1,12 +1,13 @@
 package com.pos.Controller;
 
 import com.pos.Domain.Customer;
+import com.pos.Generator.ControllerUtils;
+import com.pos.Generator.FieldInfo;
 import com.pos.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,17 +44,14 @@ public class CustomerController
 	}
 
 	@GetMapping("/fieldsInfo")
-	public Map<String, Object> getCustomerFieldsInfo()
+	public List<Map<String, Object>> getCustomerFieldsInfo()
 	{
-		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Name", "Address", "City", "Country"));
-		Map<String, String> fieldsInfo = new HashMap<>();
-		fieldsInfo.put("Code", "text");
-		fieldsInfo.put("Name", "text");
-		fieldsInfo.put("Address", "text");
-		fieldsInfo.put("City", "text");
-		fieldsInfo.put("Country", "text");
-		result.put("info", fieldsInfo);
-		return result;
+		return ControllerUtils.fetchClassFieldsInfo(Customer.class);
+	}
+
+	@PostMapping("/save")
+	public Customer addCustomer(@RequestBody Customer customer)
+	{
+		return customerRepository.save(customer);
 	}
 }
