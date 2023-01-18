@@ -50,4 +50,10 @@ public class SupplierController
 		return ControllerUtils.fetchClassFieldsInfo(Supplier.class);
 	}
 
+	@PostMapping("/save")
+	public Supplier addSupplier(@RequestBody Supplier supplier)
+	{
+		supplier.setCreationDate(LocalDateTime.now());
+		return supplierRepository.save(supplier);
+	}
 }

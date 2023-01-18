@@ -47,4 +47,10 @@ public class UserController
 		return ControllerUtils.fetchClassFieldsInfo(User.class);
 	}
 
+	@PostMapping("/save")
+	public User addSupplier(@RequestBody User user)
+	{
+		user.setCreationDate(LocalDateTime.now());
+		return userRepository.save(user);
+	}
 }

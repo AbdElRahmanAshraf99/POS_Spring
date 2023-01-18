@@ -48,4 +48,10 @@ public class ItemController
 		return ControllerUtils.fetchClassFieldsInfo(Item.class);
 	}
 
+	@PostMapping("/save")
+	public Item addItem(@RequestBody Item item)
+	{
+		item.setCreationDate(LocalDateTime.now());
+		return itemRepository.save(item);
+	}
 }
