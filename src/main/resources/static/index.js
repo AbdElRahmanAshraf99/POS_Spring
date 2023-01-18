@@ -59,15 +59,28 @@ function drawEditView(data) {
             if (field.embeddable) {
                 result[fieldName] = result[fieldName] === undefined ? {} : result[fieldName];
             } else if (field.parent) {
+                if (result[field.parent] === undefined)
+                    result[field.parent] = {};
                 let parentObject = result[field.parent];
-                if (parentObject === undefined)
-                    parentObject = {};
-                parentObject.fieldName = $(`#${fieldName}Input`).val();
+                parentObject[fieldName] = $(`#${fieldName}Input`).val();
             } else {
                 result[fieldName] = $(`#${fieldName}Input`).val();
             }
         }
         console.log(result);
+        let entity = new URLSearchParams(window.location.search).get('entity');
+        $.ajax({
+            url: `${window.location.origin}/${entity}/save`,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(result),
+            dataType: 'JSON',
+            success: function () {
+                alert("Customer " + result.name + " updated successfully");
+            },
+        });
     })
 }
 
