@@ -1,13 +1,11 @@
 package com.pos.Controller;
 
 import com.pos.Domain.User;
-import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +37,6 @@ public class UserController
 		}
 		result.put("values", values);
 		return result;
-	}
-
-	@GetMapping("/fieldsInfo")
-	public List<Map<String, Object>> getUserFieldsInfo()
-	{
-		return ControllerUtils.fetchClassFieldsInfo(User.class);
 	}
 
 	@PostMapping("/save")

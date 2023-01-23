@@ -1,11 +1,9 @@
 package com.pos.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.pos.Generator.ControllerUtils;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class HomeController
@@ -38,4 +36,17 @@ public class HomeController
 		return result;
 	}
 
+	@GetMapping("/{entity}/fieldsInfo")
+	public List<Map<String, Object>> fetchEntityFieldsInfo(@PathVariable String entity)
+	{
+		try
+		{
+			String className = "com.pos.Domain." + entity.substring(0, 1).toUpperCase() + entity.substring(1);
+			return ControllerUtils.fetchClassFieldsInfo(Class.forName(className));
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 }

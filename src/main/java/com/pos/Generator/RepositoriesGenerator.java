@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RepositoriesGenerator
@@ -51,7 +50,7 @@ public class RepositoriesGenerator
 	private static String getClassCode(Class<?> entityClass)
 	{
 		return "public interface " + entityClass.getSimpleName() + "Repository extends " + CrudRepository.class.getSimpleName() + "<"
-				+ entityClass.getSimpleName() + ", " + UUID.class.getSimpleName() + ">" + System.lineSeparator() + "{" + System.lineSeparator() + "}";
+				+ entityClass.getSimpleName() + ", " + Long.class.getSimpleName() + ">" + System.lineSeparator() + "{" + System.lineSeparator() + "}";
 	}
 
 	private static String getRepositoryImports(String classPath)
@@ -59,7 +58,6 @@ public class RepositoriesGenerator
 		ArrayList<String> imports = new ArrayList<>();
 		imports.add("import " + classPath + ";");
 		imports.add("import " + CrudRepository.class.getName() + ";");
-		imports.add("import " + UUID.class.getName() + ";");
 		return imports.stream().collect(Collectors.joining(System.lineSeparator()));
 	}
 

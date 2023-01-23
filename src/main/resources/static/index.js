@@ -78,7 +78,9 @@ function drawEditView(data) {
             data: JSON.stringify(result),
             dataType: 'JSON',
             success: function () {
-                alert("Customer " + result.name + " updated successfully");
+                let searchParams = new URLSearchParams(window.location.search);
+                searchParams.set("view", "listView");
+                location.search = searchParams;
             },
         });
     })
@@ -103,12 +105,34 @@ function drawListView(data) {
         }
         content += `<td><div class="d-flex justify-content-around">
         <button class="btn btn-warning" style="width: 25%" data-id=${object["Id"]}>Edit</button>
-        <button class="btn btn-danger" style="width: 25%" data-id=${object["Id"]}>Delete</button>
+        <button class="btn btn-danger listViewDeleteBtn" style="width: 25%" data-id="${object["Id"]}" data-code="${object["Code"]}">Delete</button>
         </div></td>`;
         content += `</tr>`;
     }
     content += `</tbody></table>`;
     $("#box").prepend(content)
+
+    let entity = new URLSearchParams(window.location.search).get('entity');
+    $(".listViewDeleteBtn").on("click", (evt) => {
+        let recordCode = evt.target.attributes["data-code"].value;
+        if (!confirm("Are you sure to delete record { " + recordCode + " }?"))
+            return;
+        let recordId = evt.target.attributes["data-id"].value;
+        $.ajax({
+            url: `${window.location.origin}/${entity}/delete`,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/text'
+            },
+            data: recordId,
+            success: function (res) {
+                if (Boolean(res))
+                    location.reload();
+                else
+                    alert("An Error Occurred")
+            },
+        });
+    })
 }
 
 function renderNavbar(data) {

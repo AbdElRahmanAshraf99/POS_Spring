@@ -1,14 +1,11 @@
 package com.pos.Controller;
 
-import com.pos.Domain.Customer;
 import com.pos.Domain.Supplier;
-import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +39,6 @@ public class SupplierController
 		}
 		result.put("values", values);
 		return result;
-	}
-
-	@GetMapping("/fieldsInfo")
-	public List<Map<String, Object>> getSupplierFieldsInfo()
-	{
-		return ControllerUtils.fetchClassFieldsInfo(Supplier.class);
 	}
 
 	@PostMapping("/save")

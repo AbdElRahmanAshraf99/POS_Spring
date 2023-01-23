@@ -1,6 +1,5 @@
 package com.pos.Controller;
 
-import com.pos.Domain.Customer;
 import com.pos.Domain.SalesInvoice;
 import com.pos.Generator.ControllerUtils;
 import com.pos.Repository.SalesInvoiceRepository;

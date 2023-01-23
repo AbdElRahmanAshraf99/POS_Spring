@@ -1,17 +1,11 @@
 package com.pos.Controller;
 
 import com.pos.Domain.Customer;
-import com.pos.Generator.ControllerUtils;
-import com.pos.Generator.FieldInfo;
 import com.pos.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/customer")
@@ -43,15 +37,21 @@ public class CustomerController
 		return result;
 	}
 
-	@GetMapping("/fieldsInfo")
-	public List<Map<String, Object>> getCustomerFieldsInfo()
-	{
-		return ControllerUtils.fetchClassFieldsInfo(Customer.class);
-	}
-
 	@PostMapping("/save")
 	public Customer addCustomer(@RequestBody Customer customer)
 	{
 		return customerRepository.save(customer);
+	}
+
+	@PostMapping("/delete")
+	public Boolean deleteCustomer(@RequestBody String id)
+	{
+		Optional<Customer> customer = customerRepository.findById(Long.valueOf(id));
+		if (customer.isPresent())
+		{
+			customerRepository.delete(customer.get());
+			return true;
+		}
+		return false;
 	}
 }
