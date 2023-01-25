@@ -5,11 +5,7 @@ import com.pos.Repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/item")
@@ -42,7 +38,19 @@ public class ItemController
 	@PostMapping("/save")
 	public Item addItem(@RequestBody Item item)
 	{
-		item.setCreationDate(LocalDateTime.now());
 		return itemRepository.save(item);
 	}
+
+	@PostMapping("/delete")
+	public Boolean deleteItem(@RequestBody String id)
+	{
+		Optional<Item> object = itemRepository.findById(Long.valueOf(id));
+		if (object.isPresent())
+		{
+			itemRepository.delete(object.get());
+			return true;
+		}
+		return false;
+	}
+
 }

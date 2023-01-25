@@ -5,11 +5,7 @@ import com.pos.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -40,9 +36,21 @@ public class UserController
 	}
 
 	@PostMapping("/save")
-	public User addSupplier(@RequestBody User user)
+	public User addUser(@RequestBody User user)
 	{
-		user.setCreationDate(LocalDateTime.now());
 		return userRepository.save(user);
 	}
+
+	@PostMapping("/delete")
+	public Boolean deleteUser(@RequestBody String id)
+	{
+		Optional<User> object = userRepository.findById(Long.valueOf(id));
+		if (object.isPresent())
+		{
+			userRepository.delete(object.get());
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -1,15 +1,11 @@
 package com.pos.Controller;
 
-import com.pos.Domain.Supplier;
+import com.pos.Domain.*;
 import com.pos.Repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/supplier")
@@ -44,7 +40,19 @@ public class SupplierController
 	@PostMapping("/save")
 	public Supplier addSupplier(@RequestBody Supplier supplier)
 	{
-		supplier.setCreationDate(LocalDateTime.now());
 		return supplierRepository.save(supplier);
 	}
+
+	@PostMapping("/delete")
+	public Boolean deleteSupplier(@RequestBody String id)
+	{
+		Optional<Supplier> object = supplierRepository.findById(Long.valueOf(id));
+		if (object.isPresent())
+		{
+			supplierRepository.delete(object.get());
+			return true;
+		}
+		return false;
+	}
+
 }

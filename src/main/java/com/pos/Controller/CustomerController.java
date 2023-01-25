@@ -46,10 +46,10 @@ public class CustomerController
 	@PostMapping("/delete")
 	public Boolean deleteCustomer(@RequestBody String id)
 	{
-		Optional<Customer> customer = customerRepository.findById(Long.valueOf(id));
-		if (customer.isPresent())
+		Optional<Customer> object = customerRepository.findById(Long.valueOf(id));
+		if (object.isPresent())
 		{
-			customerRepository.delete(customer.get());
+			customerRepository.delete(object.get());
 			return true;
 		}
 		return false;
