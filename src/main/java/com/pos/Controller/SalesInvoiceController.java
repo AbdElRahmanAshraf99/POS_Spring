@@ -21,7 +21,7 @@ public class SalesInvoiceController
 	public Map<String, Object> getAllCustomers()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Customer"));
+		result.put("fields", Arrays.asList("Code", "Creation Date", "Customer"));
 		List<SalesInvoice> salesInvoices = (List<SalesInvoice>) salesInvoiceRepository.findAll();
 		List<Map<String, String>> values = new ArrayList<>();
 		for (SalesInvoice salesInvoice : salesInvoices)

@@ -1,10 +1,10 @@
 package com.pos.Domain;
 
 import com.pos.Generator.FieldInfo;
-import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass

@@ -1,8 +1,9 @@
 package com.pos.Domain;
 
 import com.pos.Generator.FieldInfo;
-import jakarta.persistence.Entity;
 import lombok.Data;
+
+import javax.persistence.Entity;
 
 @Entity
 @Data

@@ -1,8 +1,8 @@
 package com.pos.Domain;
 
-import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+import javax.persistence.Embeddable;
 @Embeddable
 @Data
 public class Address

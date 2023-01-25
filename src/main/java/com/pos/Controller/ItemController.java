@@ -18,7 +18,7 @@ public class ItemController
 	public Map<String, Object> getAllItems()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Name", "Unit Price"));
+		result.put("fields", Arrays.asList("Code", "Creation Date", "Name", "Unit Price"));
 		List<Item> items = (List<Item>) itemRepository.findAll();
 		List<Map<String, String>> values = new ArrayList<>();
 		for (Item item : items)

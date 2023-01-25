@@ -18,7 +18,7 @@ public class CustomerController
 	public Map<String, Object> getAllCustomers()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Name", "Address", "City", "Country"));
+		result.put("fields", Arrays.asList("Code", "Creation Date", "Name", "Address", "City", "Country"));
 		List<Customer> customers = (List<Customer>) customerRepository.findAll();
 		List<Map<String, String>> values = new ArrayList<>();
 		for (Customer customer : customers)

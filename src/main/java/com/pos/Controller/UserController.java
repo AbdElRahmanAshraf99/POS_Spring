@@ -18,7 +18,7 @@ public class UserController
 	public Map<String, Object> getAllUsers()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Username", "Email"));
+		result.put("fields", Arrays.asList("Code", "Creation Date", "Username", "Email"));
 		List<User> users = (List<User>) userRepository.findAll();
 		List<Map<String, String>> values = new ArrayList<>();
 		for (User user : users)

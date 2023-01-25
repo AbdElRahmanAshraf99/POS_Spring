@@ -1,9 +1,9 @@
 package com.pos.Generator;
 
-import jakarta.persistence.Entity;
 import org.reflections.Reflections;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.persistence.Entity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

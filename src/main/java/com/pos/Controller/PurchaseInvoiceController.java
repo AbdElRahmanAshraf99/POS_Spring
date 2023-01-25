@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/purchaseInvoice")
@@ -24,7 +21,7 @@ public class PurchaseInvoiceController
 	public Map<String, Object> getAllCustomers()
 	{
 		Map<String, Object> result = new HashMap<>();
-		result.put("fields", List.of("Code", "Creation Date", "Supplier"));
+		result.put("fields", Arrays.asList("Code", "Creation Date", "Supplier"));
 		List<PurchaseInvoice> purchaseInvoices = (List<PurchaseInvoice>) purchaseInvoiceRepository.findAll();
 		List<Map<String, String>> values = new ArrayList<>();
 		for (PurchaseInvoice purchaseInvoice : purchaseInvoices)

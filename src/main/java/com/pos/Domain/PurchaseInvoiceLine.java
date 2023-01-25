@@ -1,8 +1,9 @@
 package com.pos.Domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 @Data
