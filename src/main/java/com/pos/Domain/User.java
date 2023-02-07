@@ -1,6 +1,7 @@
 package com.pos.Domain;
 
 import com.pos.Generator.FieldInfo;
+import com.pos.Generator.HTMLInputType;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +19,7 @@ public class User extends BaseEntity implements UserDetails
 {
 	@FieldInfo(required = true, order = 1)
 	private String username;
-	@FieldInfo(required = true, order = 2)
+	@FieldInfo(required = true, order = 2, inputType = HTMLInputType.PASSWORD)
 	private String password;
 	@FieldInfo(order = 3)
 	private String email;

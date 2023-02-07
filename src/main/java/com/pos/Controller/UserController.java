@@ -3,6 +3,7 @@ package com.pos.Controller;
 import com.pos.Domain.User;
 import com.pos.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -13,6 +14,8 @@ public class UserController
 {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/all")
 	public Map<String, Object> getAllUsers()
@@ -38,6 +41,9 @@ public class UserController
 	@PostMapping("/save")
 	public User addUser(@RequestBody User user)
 	{
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if (user.getCode() == null)
+			user.setCode(UUID.randomUUID().toString());
 		return userRepository.save(user);
 	}
 

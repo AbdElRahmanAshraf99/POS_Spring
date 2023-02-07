@@ -25,7 +25,7 @@ function drawHomePage(data) {
             <hr class="mx-1 mt-0" style="background-color: white">
             <div class="d-flex" style="width: 100%">`
         data[module].forEach(entity => {
-            content += `<a id="${entity.link}" href="/home.html?entity=${entity.link}&view=listView" class="m-3 d-flex justify-content-center align-items-center" style="width: 250px;height: 150px;
+            content += `<a id="${entity.link}" href="?entity=${entity.link}&view=listView" class="m-3 d-flex justify-content-center align-items-center" style="width: 250px;height: 150px;
             background-color: #ffe715;color: #101920;font-size: 26px;font-weight: 500;cursor: pointer;text-decoration: none">${entity.name}</a>`
         })
         content += `</div></div>`
@@ -142,7 +142,7 @@ function renderNavbar(data) {
             <span class="me-4 mb-0 display-6" style = "color: lime" > POS </span>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="modules">
             <li class="nav-item d-flex align-items-center">
-                <a class="nav-link active h5 m-0" aria-current="page" href="/home.html">Home</a>
+                <a class="nav-link active h5 m-0" aria-current="page" href="/">Home</a>
             </li>`;
 
     let modules = data["modules"];
@@ -154,7 +154,7 @@ function renderNavbar(data) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">`
         data[module].forEach(entity => {
-            navbarContent += `<li><a class="dropdown-item" onclick="" href="/home.html?entity=${entity.link}&view=listView">${entity.name}</a></li>`
+            navbarContent += `<li><a class="dropdown-item" onclick="" href="?entity=${entity.link}&view=listView">${entity.name}</a></li>`
         })
         navbarContent += `</ul></li>`
     }
@@ -167,7 +167,8 @@ function renderNavbar(data) {
     }
     navbarContent += `<form class="d-flex">
             <input class="form-control me-2" type = "search" placeholder ="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type ="submit">Search</button>
+            <button id="saveBtn" class="btn btn-outline-success  me-2" type ="submit">Search</button>
+            <a href="/logout" class="btn btn-danger">Logout</a>
             </form>
     </div>
     </nav>`;

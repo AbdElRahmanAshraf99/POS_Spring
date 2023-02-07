@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+          crossorigin="anonymous"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #023047;
+    }
+
+    .box {
+      padding: 10px 20px;
+      border: 2px solid inherit;
+      border-radius: 5px;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #023047;
+    }
+
+    .form-control::placeholder {
+      color: black;
+      opacity: 1;
+    }
+
+    #createNewAccountBtn {
+      margin: 40px 0 20px;
+    }
+
+    #createNewAccountBtn {
+      width: 40%;
+    }
+  </style>
+  <title>POS | Sign Up</title>
+</head>
+<body class="w-100 h-100">
+<div class="container w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+  <div class="box w-50 bg-light text-center d-flex flex-column justify-content-center align-items-center">
+    <form class="w-100" id="registrationForm">
+      <h4 class="my-4">Create New Account In POS</h4>
+      <div class="my-2 input-group input-group-lg">
+        <input type="text" class="form-control" placeholder="Username" id="username" required>
+      </div>
+      <div class="my-2 input-group input-group-lg">
+        <input type="email" class="form-control" placeholder="Email" id="email" required>
+      </div>
+      <div class="my-2 input-group input-group-lg">
+        <input type="password" class="form-control" placeholder="Password" id="password" required>
+      </div>
+      <div class="my-2 input-group input-group-lg">
+        <input type="password" class="form-control" placeholder="Re-Type Password" id="confirmPassword" required>
+      </div>
+      <input type="submit" value="Create Account" id='createNewAccountBtn' class="btn btn-success btn-lg fw-bold">
+    </form>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#registrationForm").submit(function (evt) {
+      if ($("#password").val() !== $("#confirmPassword").val()) {
+        alert("Password And Confirmation is Not Equal");
+        evt.preventDefault();
+        return;
+      }
+      evt.preventDefault();
+      let data = {
+        username: $("#username").val(),
+        password: $("#password").val(),
+        email: $("#email").val()
+      };
+      $.ajax({
+        url: `${window.location.origin}/user/save`,
+        type: "POST",
+        data: JSON.stringify(data),
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+          window.location.href = `${window.location.origin}`;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(errorThrown)
+        }
+      });
+    })
+  })
+</script>
+<!-- Bootstrap Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
